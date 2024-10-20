@@ -43,6 +43,10 @@ def login(request):
 
     return render(request, login_page)
 
+def logout(request):
+    auth.logout(request) 
+    return render(request, login_page)
+
 @login_required(login_url='login')
 def word_list(request):
     return render(request, 'main/word_list/main_word_list.html')
