@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'main/common/header.css' %}">
     <link rel="stylesheet" href="{% static 'main/word_list/main_word_list.css' %}">
     <link rel="stylesheet" href="{% static 'main/common/paginator.css' %}">
-    <title>Document</title>
+    <title>My words</title>
 </head>
 <body>
     {% include 'main/common/header.html' %}
@@ -24,7 +24,7 @@
             </ul>
         </div>
     </div>
-    {% include 'main/word_list/paginator.html' %}
+    {% include 'main/common/paginator.html' %}
     <script src="{% static 'main/word_list/main_word_list.js' %}"></script>
     <script src="{% static 'main/word_list/paginator.js' %}"></script>
 </body>
