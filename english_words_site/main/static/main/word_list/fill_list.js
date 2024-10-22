@@ -1,3 +1,7 @@
+const hereLocation = window.location.href;
+const url = new URL(hereLocation);
+const serverUrl = url.origin;
+
 class Table{
     static table = document.querySelector('.box ul');
     
@@ -25,10 +29,17 @@ class Table{
         });
     }
 
-    static getListFromServer(){
-
-    } 
-
+    static async getListFromServer(pageNumber) {
+        const url = `${serverUrl}/word_list/${pageNumber}/`;
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.word_list; 
+    }
 }
 
-Table.addWord('Ndsdsad');
+(async () => {
+    let wordList = await Table.getListFromServer(1);
+    console.log(wordList);
+    console.log('llllllllllll' + wordList.length);
+    Table.addWords(wordList);
+})();

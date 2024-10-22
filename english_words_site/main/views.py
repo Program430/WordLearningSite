@@ -59,19 +59,22 @@ def logout(request):
 def word_list(request): 
     return render(request, 'main/word_list/main_word_list.html')
 
-@csrf_exempt
+
+@login_required(login_url='login')
 def get_word_list_page_count(request):
     count = { 'count': math.ceil(Word.objects.count() / words_per_page) }
     return JsonResponse(count)
 
-class WordListGetData(View):
+class WordListGetData(LoginRequiredMixin, View):
     words = Word.objects.all()
     paginator = Paginator(words, words_per_page)
     def get(self, request, page = 1):
-        print(self.paginator.page(page))
-        return JsonResponse(self.paginator.page(page).object_list)
-
-
+        try:
+            page_object = self.paginator.page(page)
+        except:
+            page_object = self.paginator.page(self.paginator.num_pages)
+        word_list = [word.english for word in page_object.object_list]
+        return JsonResponse({'word_list': word_list})
 
 @login_required(login_url='login')
 def word_card(request):
@@ -80,3 +83,8 @@ def word_card(request):
 @login_required(login_url='login')
 def user_word_list(request):
     return render(request, 'main/user_word_list/user_word_list.html')
+
+# delete user word
+# add user word
+# show user words
+ 
