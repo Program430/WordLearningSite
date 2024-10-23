@@ -76,7 +76,6 @@ function createPagination(pages, page) {
   return str;
 }
 
-
 function findGreenElement() {
   // Получаем все элементы li внутри пагинации
   const pageItems = document.querySelectorAll('#pagination .page-item');
@@ -89,9 +88,9 @@ function findGreenElement() {
 
       // Если цвет совпадает с зеленым
       if (color === 'rgb(154, 184, 122)') {
+        setPageNumber(link.innerText);
         localStorage.setItem('lastPageNumber', link.innerText);  
-        mainTable(link.innerText);
-          
+        mainTable(link.innerText);  
       }
   });
 }
