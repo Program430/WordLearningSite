@@ -89,8 +89,9 @@ function findGreenElement() {
 
       // Если цвет совпадает с зеленым
       if (color === 'rgb(154, 184, 122)') {
-          console.log('Зеленый элемент:', link.innerText);
-          // Здесь можно вернуть или выполнить другую логику с найденным элементом
+        localStorage.setItem('lastPageNumber', link.innerText);  
+        mainTable(link.innerText);
+          
       }
   });
 }

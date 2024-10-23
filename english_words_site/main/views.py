@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -78,7 +78,8 @@ class WordListGetData(LoginRequiredMixin, View):
 
 @login_required(login_url='login')
 def word_card(request, word):
-    return render(request, 'main/card/word_card.html')
+    get_object_or_404(Word, english=word)
+    return render(request, 'main/card/word_card.html', context = {'word': word})
 
 @login_required(login_url='login')
 def user_word_list(request):
