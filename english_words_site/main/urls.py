@@ -11,9 +11,9 @@ urlpatterns = [
     path('word_list/count/', get_word_list_page_count, name = 'get_word_list_page_count'),
     path('word_list/<int:page>/', WordListGetData.as_view(), name = 'word_list_get_data'),
 
-    
 
-    path('word_card/', word_card, name = 'word_card'),
+
+    path('word_card/<str:word>/', word_card, name = 'word_card'),
     path('user_word_list/', user_word_list, name = 'user_word_list'),
 ]
 

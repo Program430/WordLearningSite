@@ -40,7 +40,7 @@ a:hover {
      animation: fadein .5s;
    }
   li.active a {
-    background-color: #9ab87a;
+    background-color: rgb(154, 184, 122);
   }
   li:first-child a {
     border-radius: 5px 0 0 5px;
@@ -49,6 +49,22 @@ a:hover {
     border-radius: 0 5px 5px 0;
     border-right: 2px solid #3d315b;
   }
+}
+
+.paginatorButtomWrapper{
+  padding-bottom: 50px;
+}
+
+.paginatorButtom{
+  width: 200px;
+  height: 40px;
+  margin: auto;
+  text-align: center;
+  border: 2px solid #3d315b;
+  background-color: #444b6e;
+  padding: 5px 10px;
+  color: #fff;
+  cursor: pointer;
 }
 
 

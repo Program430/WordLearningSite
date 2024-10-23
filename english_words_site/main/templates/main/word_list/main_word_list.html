@@ -14,15 +14,14 @@
     <div id="listWrapper">
         <div class="box">
             <h2>Top 5000 words</h2>
-            <ul>
-                <li> List Item One</li>
-            </ul>
+            <ul></ul>
         </div>
     </div>
     {% include 'main/common/paginator.html' %}
+    <script  src="{% static 'main/common/common.js' %}"></script>
+    <script  src="{% static 'main/word_list/fill_list.js' %}"></script>
     <script src="{% static 'main/word_list/main_word_list.js' %}"></script>
-    <script src="{% static 'main/word_list/paginator.js' %}"></script>
-    <script src="{% static 'main/word_list/fill_list.js' %}"></script>
+    <script  src="{% static 'main/word_list/paginator.js' %}"></script>
 </body>
 </html>
 

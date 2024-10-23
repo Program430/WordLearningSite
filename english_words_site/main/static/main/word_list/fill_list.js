@@ -1,7 +1,3 @@
-const hereLocation = window.location.href;
-const url = new URL(hereLocation);
-const serverUrl = url.origin;
-
 class Table{
     static table = document.querySelector('.box ul');
     
@@ -24,7 +20,7 @@ class Table{
     static addListenerForEachElement(){
         this.table.querySelectorAll('li').forEach(item => {
             item.addEventListener('click', () => {
-                alert('Элемент "' + item.textContent + '" был нажат!');
+                window.location.href = `${serverUrl}/word_card/${item.textContent}`;
             });
         });
     }
@@ -37,9 +33,10 @@ class Table{
     }
 }
 
-(async () => {
-    let wordList = await Table.getListFromServer(1);
-    console.log(wordList);
-    console.log('llllllllllll' + wordList.length);
+async function mainTable(pageNumber){
+    let wordList = await Table.getListFromServer(pageNumber);
     Table.addWords(wordList);
-})();
+    Table.addListenerForEachElement();
+}
+
+mainTable(1);

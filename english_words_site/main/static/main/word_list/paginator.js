@@ -1,6 +1,11 @@
-let pages = 25;
+let pages = 0;
 
-document.getElementById('pagination').innerHTML = createPagination(pages, 12);
+async function page_count(){
+  const url = `${serverUrl}/word_list/count/`;
+  const response = await fetch(url);
+  const data = await response.json();
+  return data.count; 
+}
 
 function createPagination(pages, page) {
   let str = '<ul>';
@@ -9,7 +14,7 @@ function createPagination(pages, page) {
   let pageCutHigh = page + 1;
   // Show the Previous button only if you are on a page other than the first
   if (page > 1) {
-    str += '<li class="page-item previous no"><a onclick="createPagination(pages, '+(page-1)+')">Previous</a></li>';
+    str += '<li class="page-item previous no"><a onclick="createPagination(pages, '+(page-5)+')">Previous</a></li>';
   }
   // Show all the pagination elements if there are less than 6 pages total
   if (pages < 6) {
@@ -25,7 +30,7 @@ function createPagination(pages, page) {
     if (page > 2) {
       str += '<li class="no page-item"><a onclick="createPagination(pages, 1)">1</a></li>';
       if (page > 3) {
-          str += '<li class="out-of-range"><a onclick="createPagination(pages,'+(page-2)+')">...</a></li>';
+          str += '<li class="out-of-range"><a onclick="createPagination(pages,'+(page-15)+')">...</a></li>';
       }
     }
     // Determine how many pages to show after the current page index
@@ -56,17 +61,45 @@ function createPagination(pages, page) {
     // section (before the Next button)
     if (page < pages-1) {
       if (page < pages-2) {
-        str += '<li class="out-of-range"><a onclick="createPagination(pages,'+(page+2)+')">...</a></li>';
+        str += '<li class="out-of-range"><a onclick="createPagination(pages,'+(page+15)+')">...</a></li>';
       }
       str += '<li class="page-item no"><a onclick="createPagination(pages, pages)">'+pages+'</a></li>';
     }
   }
   // Show the Next button only if you are on a page other than the last
   if (page < pages) {
-    str += '<li class="page-item next no"><a onclick="createPagination(pages, '+(page+1)+')">Next</a></li>';
+    str += '<li class="page-item next no"><a onclick="createPagination(pages, '+(page+5)+')">Next</a></li>';
   }
   str += '</ul>';
   // Return the pagination string to be outputted in the pug templates
   document.getElementById('pagination').innerHTML = str;
   return str;
 }
+
+
+function findGreenElement() {
+  // Получаем все элементы li внутри пагинации
+  const pageItems = document.querySelectorAll('#pagination .page-item');
+
+  // Проходим по каждому элементу
+  pageItems.forEach(item => {
+      // Проверяем цвет текста ссылки
+      const link = item.querySelector('a');
+      const color = window.getComputedStyle(link).backgroundColor;
+
+      // Если цвет совпадает с зеленым
+      if (color === 'rgb(154, 184, 122)') {
+          console.log('Зеленый элемент:', link.innerText);
+          // Здесь можно вернуть или выполнить другую логику с найденным элементом
+      }
+  });
+}
+
+(async () => {
+  pages = await page_count();
+  document.getElementById('pagination').innerHTML = createPagination(pages, Math.floor(pages/2));
+})();
+
+const button = document.getElementById('paginatorButton');
+
+button.addEventListener('click', findGreenElement);

@@ -52,7 +52,7 @@ def login(request):
 
 def logout(request):
     auth.logout(request) 
-    return render(request, login_page)
+    return redirect(reverse('login'))
 
 
 @login_required(login_url='login')
@@ -77,7 +77,7 @@ class WordListGetData(LoginRequiredMixin, View):
         return JsonResponse({'word_list': word_list})
 
 @login_required(login_url='login')
-def word_card(request):
+def word_card(request, word):
     return render(request, 'main/card/word_card.html')
 
 @login_required(login_url='login')
