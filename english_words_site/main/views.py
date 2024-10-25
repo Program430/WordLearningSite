@@ -78,15 +78,19 @@ class WordListGetData(LoginRequiredMixin, View):
         return JsonResponse({'word_list': word_list})
 
 @login_required(login_url='login')
-def word_card(request, word):
+def word_card(request, word, list):
     get_object_or_404(Word, english=word)
-    return render(request, 'main/card/word_card.html', context = {'word': word})
+    user_list = False
+    if list == 'mylist':
+        user_list = True
+    return render(request, 'main/card/word_card.html', context = {'word': word, 'user_list': user_list})
 
 
 class UserWords:
     @login_required(login_url='login')
     def user_word_list(request):
-        return render(request, 'main/user_word_list/user_word_list.html')
+        context = [word.word.english for word in UserWordsList.objects.filter(user = request.user).select_related('word')]
+        return render(request, 'main/user_word_list/user_word_list.html', context={'context':context})
     
     class WordListGetData(LoginRequiredMixin, View):
         @classmethod

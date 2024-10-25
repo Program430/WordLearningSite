@@ -1,12 +1,6 @@
 let arrow = document.getElementById('back');
 const csrftoken = document.getElementById('csrf-token').value;
 
-function returnFunction(){
-    window.location.href = `${serverUrl}/word_list/`;
-}
-
-arrow.addEventListener('click', returnFunction);
-
 /////////////////////
 
 let add_or_create = document.getElementById('add_or_create');

@@ -15,17 +15,14 @@
         <div class="box">
             <h2>CSS List Item Hover Effect</h2>
             <ul>
-                <li><span>1</span> List Item One</li>
-                <li><span>2</span> List Item Two</li>
-                <li><span>3</span> List Item Three</li>
-                <li><span>4</span> List Item Four</li>
-                <li><span>5</span> List Item Five</li>
-                <li><span>6</span> List Item Six</li>
+                {% for p in context %}
+                    <li>{{p}}</li>
+                {% endfor %}
             </ul>
         </div>
     </div>
-    {% include 'main/common/paginator.html' %}
-    <script src="{% static 'main/word_list/main_word_list.js' %}"></script>
-    <script src="{% static 'main/word_list/paginator.js' %}"></script>
+    <script  src="{% static 'main/common/common.js' %}"></script>
+    <script  src="{% static 'main/word_list/table_classes.js' %}"></script>
+    <script>Table.addListenerForEachElement();</script>
 </body>
 </html>

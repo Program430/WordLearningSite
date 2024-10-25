@@ -11,6 +11,7 @@
 </head>
 <body>
     {% include 'main/common/header.html' %}
+    <div id = 'itIsUserListCheck' style = "display:none;">{{user_list}}</div>
     <div id="listWrapper">
         <div class="box">
             <h2>Page number is 1</h2>
@@ -19,8 +20,8 @@
     </div>
     {% include 'main/common/paginator.html' %}
     <script  src="{% static 'main/common/common.js' %}"></script>
+    <script  src="{% static 'main/word_list/table_classes.js' %}"></script>
     <script  src="{% static 'main/word_list/fill_list.js' %}"></script>
-    <script src="{% static 'main/word_list/main_word_list.js' %}"></script>
     <script  src="{% static 'main/word_list/paginator.js' %}"></script>
 </body>
 </html>

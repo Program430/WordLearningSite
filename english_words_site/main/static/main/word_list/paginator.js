@@ -1,12 +1,5 @@
 let pages = 0;
 
-async function page_count(){
-  const url = `${serverUrl}/word_list/count/`;
-  const response = await fetch(url);
-  const data = await response.json();
-  return data.count; 
-}
-
 function createPagination(pages, page) {
   let str = '<ul>';
   let active;
@@ -96,7 +89,7 @@ function findGreenElement() {
 }
 
 (async () => {
-  pages = await page_count();
+  pages = await Table.page_count();
   document.getElementById('pagination').innerHTML = createPagination(pages, Math.floor(pages/2));
 })();
 

@@ -20,7 +20,12 @@ class Table{
     static addListenerForEachElement(){
         this.table.querySelectorAll('li').forEach(item => {
             item.addEventListener('click', () => {
-                window.location.href = `${serverUrl}/word_card/${item.textContent}`;
+                if (document.title == 'My words'){
+                    window.location.href = `${serverUrl}/word_card/${item.textContent}/mylist/`;
+                }
+                else{
+                    window.location.href = `${serverUrl}/word_card/${item.textContent}/list/`;
+                }
             });
         });
     }
@@ -31,6 +36,14 @@ class Table{
         const data = await response.json();
         return data.word_list; 
     }
+
+    static async page_count(){
+        const url = `${serverUrl}/word_list/count/`;
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.count; 
+      }
+      
 }
 
 function setPageNumber(number){
@@ -39,7 +52,6 @@ function setPageNumber(number){
     pageNumberTitle.innerText = `Page namber is ${number}`
   }
   
-
 async function mainTable(pageNumber){
     Table.clearTable(); 
     let wordList = await Table.getListFromServer(pageNumber);
@@ -47,11 +59,3 @@ async function mainTable(pageNumber){
     Table.addListenerForEachElement();
 }
 
-class MyTable extends Table {
-    static async getListFromServer(pageNumber) {
-        const url = `${serverUrl}/word_list/${pageNumber}/`;
-        const response = await fetch(url);
-        const data = await response.json();
-        return data.word_list; 
-    }
-}
