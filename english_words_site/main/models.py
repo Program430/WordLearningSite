@@ -6,7 +6,6 @@ class Word(models.Model):
     english = models.CharField(max_length=15, unique=True, db_index=True)
 
 
-class UserWords(models.Model):
+class UserWordsList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
-

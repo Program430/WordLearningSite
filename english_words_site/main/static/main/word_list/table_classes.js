@@ -35,16 +35,14 @@ class Table{
 
 function setPageNumber(number){
     const pageNumberTitle = document.querySelectorAll('.box h2')[0];
+    console.log(pageNumberTitle);
     pageNumberTitle.innerText = `Page namber is ${number}`
   }
   
 
-async function mainTable(){
-    let lastPageNumber = Number(localStorage.getItem('lastPageNumber')) || 1;
-    localStorage.setItem('lastPageNumber', lastPageNumber);
-    setPageNumber(lastPageNumber);
+async function mainTable(pageNumber){
     Table.clearTable(); 
-    let wordList = await Table.getListFromServer(lastPageNumber);
+    let wordList = await Table.getListFromServer(pageNumber);
     Table.addWords(wordList);
     Table.addListenerForEachElement();
 }
@@ -57,7 +55,3 @@ class MyTable extends Table {
         return data.word_list; 
     }
 }
-
-
-
-mainTable();
