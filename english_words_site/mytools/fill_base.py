@@ -22,14 +22,24 @@ url = 'https://studynow.ru/dicta/allwords'
 
 class DataToDB:
     @staticmethod
-    def __data_parcing(html_content):
+    def get_correct_translation(string):
+        result = ''
+        for i in string:
+            if i == ',' or i == ' ':
+                break
+            result += i
+        return result
+
+    @classmethod
+    def __data_parcing(cls, html_content):
         word_list = []
         # Создаём объект BeautifulSoup
         soup = BeautifulSoup(html_content, 'html.parser')
         target_element = soup.find('table', id='wordlist')
         child_elements = target_element.find_all('tr')
         for child in child_elements:
-            word_list.append(child.find_all('td')[1].text)
+            obj = (child.find_all('td')[1].text, cls.get_correct_translation(child.find_all('td')[2].text))
+            word_list.append(obj)
         return word_list
 
     @staticmethod
@@ -47,17 +57,17 @@ class DataToDB:
     @staticmethod
     def __insert_to_db(word_list):
         cursor = connection.cursor()
-        for word in word_list:
-            print(word)
-            new_product = (word,)
+        for word, translate in word_list:
+            print(word , translate)
+            new_product = (word, translate)
 
             request_to_insert_data = '''
-                    INSERT INTO main_word (english) VALUES (%s);
+                    INSERT INTO main_word (english, russian) VALUES (%s, %s);
                     '''
             try:
                 cursor.execute(request_to_insert_data, new_product)
             except:
-                pass
+                pass        
             connection.commit()
 
         cursor.close()
