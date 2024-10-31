@@ -13,10 +13,8 @@
         <nav id='back'>
           <svg class="arrow" version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon points="352,115.4 331.3,96 160,256 331.3,416 352,396.7 201.5,256 " stroke="#727272"/></svg>
           <a href =
-          {% if user_list == 'mylist'%} 
+          {% if user_list %} 
             {% url 'user_word_list' %}
-          {% elif user_list == 'trainlist'%}
-            {% url 'train' %}
           {% else %}
             {% url 'word_list' %}
           {% endif %}
@@ -26,9 +24,9 @@
           <img src="https://s-media-cache-ak0.pinimg.com/236x/3b/36/ca/3b36ca3afe0fa0fd4984b9eee2e154bb.jpg">
         </div>
         <div class="description">
-          <h2>{{en}}</h2>
-          <h1>{{ru}}</h1>
-          <p>{{description}}</p>
+          <h2>{{word}}</h2>
+          <h1>{{word}}</h1>
+          <p>Classic Peace Lily is a spathiphyllum floor plant arranged in a bamboo planter with a blue & red ribbom and butterfly pick.Classic Peace Lily is a spathiphyllum floor plant arranged in a bamboo planter with a blue & red ribbom and butterfly pick.</p>
           <button id = 'add_or_create'>Add</button>
           <button>Show examples</button>
         </div>
