@@ -1,4 +1,5 @@
 import json
+import time
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
@@ -13,7 +14,9 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-import math
+import math, threading, queue
+from googletrans import Translator
+from mytools.get_ai_answer import get_data_about_word_through_proxy
 
 login_page = 'main/login_register/login_register.html'
 words_per_page = 10
@@ -79,11 +82,16 @@ class WordListGetData(LoginRequiredMixin, View):
 
 @login_required(login_url='login')
 def word_card(request, word, list):
-    get_object_or_404(Word, english=word)
-    user_list = False
-    if list == 'mylist':
-        user_list = True
-    return render(request, 'main/card/word_card.html', context = {'word': word, 'user_list': user_list})
+    word = get_object_or_404(Word, english=word)
+
+    ai_request = f'''Что занчит {word.english}?3-5 предложения. Ответ только на русском'''
+
+    description = get_data_about_word_through_proxy(ai_request)
+
+    print(description)
+
+    return render(request, 'main/card/word_card.html', context = {'en': word.english, 'ru':word.russian,
+                                                                   'description':description, 'user_list': list})
 
 
 class UserWords:
@@ -91,21 +99,6 @@ class UserWords:
     def user_word_list(request):
         context = [word.word.english for word in UserWordsList.objects.filter(user = request.user).select_related('word')]
         return render(request, 'main/user_word_list/user_word_list.html', context={'context':context})
-    
-    class WordListGetData(LoginRequiredMixin, View):
-        @classmethod
-        def get_custom_queryset(cls, id):
-            return [word.word for word in UserWordsList.objects.filter(user=id).select_related('word')]
-        
-        def get(self, request, page = 1):
-            words = self.get_custom_queryset(request.user.id)
-            paginator = Paginator(words, words_per_page)
-            try:
-                page_object = paginator.page(page)
-            except:
-                page_object = paginator.page(paginator.num_pages)
-            word_list = [word.english for word in page_object.object_list]
-            return JsonResponse({'word_list': word_list})
 
     class WordListAddWord(LoginRequiredMixin, View):
         def post(self, request):
@@ -140,4 +133,22 @@ class UserWords:
                 return JsonResponse({'statusB':'Yes'}, status=200)
             return JsonResponse({'statusB':'No'}, status=400)
 
- 
+
+@login_required(login_url='login')
+def get_train_page(request):
+    return render(request, 'main/train/train.html')
+
+
+@login_required(login_url='login')
+def get_train_data_user(request):
+    user_word_list = [{'en':word.word.english, 'ru':word.word.russian} 
+                      for word in UserWordsList.objects.filter(user = request.user).select_related('word')]
+    return JsonResponse({'data': user_word_list}, status=200)
+
+@login_required(login_url='login')
+def get_train_data_full_list(request):
+    word_list = [{'en':word.english, 'ru':word.russian} for word in Word.objects.order_by('?')[:10]]
+    return JsonResponse({'data': word_list}, status=200)
+
+    
+

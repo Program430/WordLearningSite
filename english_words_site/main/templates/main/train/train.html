@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест на запоминание слов</title>
+    <link rel="stylesheet" href="{% static 'main/common/header.css' %}">
+    <link rel="stylesheet" href="{% static 'main/train/train.css' %}">
+</head>
+<body>
+    {% include 'main/common/header.html' %}
+    <div class="container">
+        <h1>Тест на запоминание слов 📚</h1>
+        <div id="question-container">
+            <div id="question"></div>
+            <div id="answers" class="answers-container"></div>
+            <div id="result" class="result"></div>
+            <button id="next-button" class="next-button" onclick="loadQuestion()" style="display: none;">Следующий вопрос ➡️</button>
+        </div>
+    </div>
+    <script  src="{% static 'main/common/common.js' %}"></script>
+    <script  src="{% static 'main/train/train.js' %}"></script>
+</body>
+</html>
