@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class Word(models.Model):
     english = models.CharField(max_length=15, unique=True, db_index=True)
+    russian = models.CharField(max_length=15)
 
 
 class UserWordsList(models.Model):
